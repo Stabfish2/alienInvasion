@@ -5,11 +5,11 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
-from alien import Alien
+from alien import Alien 
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
-
+ 
     def __init__(self):
         """Initialize the game, and create game resources."""
         pygame.init()
@@ -26,6 +26,8 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+        self.score=0 
+
 
 
     def run_game(self):
@@ -95,7 +97,10 @@ class AlienInvasion:
         # Remove any bullets and aliens that have collided.
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
-
+        if collisions:
+            for aliens in collisions.values():
+                self.score += 100 * len(aliens)
+            
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
@@ -153,4 +158,4 @@ class AlienInvasion:
 if __name__ == '__main__':
     # Make a game instance, and run the game.
     ai = AlienInvasion()
-    ai.run_game()
+    ai.run_game() 
